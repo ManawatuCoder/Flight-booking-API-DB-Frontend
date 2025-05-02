@@ -3,8 +3,8 @@ from django.db import models
 
 class Flights(models.Model):
     code = models.CharField(max_length=3, primary_key=True)
-    ucode = models.IntegerField()
-    hcode = models.CharField(max_length=20)
+    ucode = models.IntegerField(max_length=50)
+    hcode = models.CharField(max_length=50)
     description = models.CharField(max_length=50)
 
     # Define the t a b l e name

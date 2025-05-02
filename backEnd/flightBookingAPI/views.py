@@ -13,10 +13,10 @@ def form(request):
 
 def flights(request):
     f = Flights(
-    code = request.POST['code'],
-    ucode = int(request.POST['ucode']),
-    hcode = request.POST['hcode'],
-    description = request.POST['descr'])
+        code = request.POST['code'],
+        ucode = request.POST['ucode'],
+        hcode = request.POST['hcode'],
+        description = request.POST['descr'])
     f.save()
     text = '<h1>Done</h1>'
     return HttpResponse(text)
