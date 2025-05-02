@@ -18,6 +18,8 @@ def flights(request):
     hcode = request.POST['hcode'],
     description = request.POST['descr'])
     f.save()
+    text = '<h1>Done</h1>'
+    return HttpResponse(text)
 
 def flightslist(request):
     pdata = {}
