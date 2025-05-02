@@ -26,4 +26,5 @@ def flightslist(request):
 
     for entry in Flights.objects.all():
         pdata[entry.code] = entry.description
+        pdata[entry.ucode] = entry.hcode
     return JsonResponse(pdata)
