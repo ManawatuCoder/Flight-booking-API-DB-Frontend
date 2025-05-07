@@ -14,9 +14,12 @@ def form(request):
 def flights(request):
     f = Flights(
         code = request.POST['code'],
-        ucode = request.POST['ucode'],
-        hcode = request.POST['hcode'],
-        description = request.POST['descr'])
+        craftName = request.POST['craftName'],
+        departTime = request.POST['departTime'],
+        arriveTime = request.POST['arriveTime'],
+        startLocation = request.POST['startLocation'],
+        destination = request.POST['destination']
+    )
     f.save()
     text = '<h1>Done</h1>'
     return HttpResponse(text)
@@ -25,6 +28,6 @@ def flightslist(request):
     pdata = {}
 
     for entry in Flights.objects.all():
-        pdata[entry.code] = entry.description
-        pdata[entry.ucode] = entry.hcode
+        pdata[entry.code] = entry.code
+        pdata[entry.craftName] = entry.craftName
     return JsonResponse(pdata)

@@ -1,8 +1,10 @@
 <form method="post" action='{% url "flights" %}'>
     {% csrf_token %}
     <p><input type="text" name="code" size="20"/>
-    <p><input type="text" name="ucode" size="20"/>
-    <p><input type="text" name="hcode" size="20"/>
-    <p><input type="text" name="descr" size="20"/>
+    <p><input type="text" name="craftName" size="20"/>
+    <p><input type="text" name="departTime" size="20"/>
+    <p><input type="text" name="arriveTime" size="20"/>
+    <p><input type="text" name="startLocation" size="20"/>
+    <p><input type="text" name="destination" size="20"/>
     <p><input type="submit" value="Submit"/>
 </form>

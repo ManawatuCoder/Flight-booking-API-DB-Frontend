@@ -5,10 +5,10 @@ def auto_increment():
 
 class Flights(models.Model):
     #Arbitrary max length values, currently.
-    code = models.IntegerField( primary_key=True)
+    code = models.IntegerField(primary_key=True)
     craftName = models.CharField(max_length=3, primary_key=False, default="poop")
-    bookedSeats = models.IntegerField(default = 0)
-    maxBookings = models.IntegerField()
+    departTime = models.IntegerField()
+    arriveTime = models.IntegerField()
     startLocation = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
 
@@ -25,3 +25,5 @@ class Flights(models.Model):
 #
 # class Bookings:
 #     passengerID = models.IntegerField(max_length=20)
+#     bookedSeats = models.IntegerField(default = 0)
+#     maxBookings = models.IntegerField()
