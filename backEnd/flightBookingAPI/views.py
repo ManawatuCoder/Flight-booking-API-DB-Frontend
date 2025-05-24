@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
-from .models import Flights
+from .models import Flights, Bookings
 
 
 def hello(request):
@@ -23,6 +23,16 @@ def flights(request):
     f.save()
     text = '<h1>Done</h1>'
     return HttpResponse(text)
+
+def bookings(request):
+    b = Bookings(
+        passengerID=request.POST['passengerID'],
+        bookedSeats=request.POST['bookedSeats']
+    )
+    b.save()
+    text = '<h1>Done</h1>'
+    return HttpResponse(text)
+
 
 def flightslist(request):
     pdata = {}
