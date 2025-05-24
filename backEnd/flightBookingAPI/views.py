@@ -25,18 +25,15 @@ def flights(request):
     return HttpResponse(text)
 
 def bookings(request):
+    code = 1
+    for entry in Flights.objects.all():
+        code = entry.code
+        break
+
     b = Bookings(
-        passengerID=request.POST['passengerID']
+        passengerID=request.POST['passengerID'],
+        flightCode_id = code
     )
     b.save()
     text = '<h1>Done</h1>'
     return HttpResponse(text)
-
-
-def flightslist(request):
-    pdata = {}
-
-    for entry in Flights.objects.all():
-        pdata[entry.code] = entry.code
-        pdata[entry.craftName] = entry.craftName
-    return JsonResponse(pdata)

@@ -16,14 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import views, API
+from . import views, API, populatePlanes, populateFlights, populateAirports
 
 urlpatterns = [
-    path('flightslist/', views.flightslist, name='flightslist'),
+    path('flightslist/', API.flightslist, name='flightslist'),
     path('form/', views.form, name='form'),
     path('flights/', views.flights, name='flights'),
     path('flightBookingAPI', views.hello, name='hello'),
     path('admin/', admin.site.urls),
     path("bookings/", views.bookings, name='bookings'),
-    path("bookflight/", API.book)
+    path("bookflight/", API.book),
+    path('populateplanes/', populatePlanes.populatePlanes),
+    path('populateflights/', populateFlights.populateFlights),
+    path('withinperiod/', API.withinPeriod),
+    path('populateairports/', populateAirports.populateAirports)
 ]
