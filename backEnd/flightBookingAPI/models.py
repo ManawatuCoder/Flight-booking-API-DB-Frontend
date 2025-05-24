@@ -8,7 +8,7 @@ def auto_increment():
 class Flights(models.Model):
     #Arbitrary max length values, currently.
     code = models.IntegerField(primary_key=True)
-    craftName = models.CharField(max_length=3, primary_key=False, default="poop")
+    craftName = models.CharField(max_length=3, primary_key=False)
     departTime = models.DateTimeField()
     arriveTime = models.DateTimeField()
     startLocation = models.CharField(max_length=50)

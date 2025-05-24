@@ -79,10 +79,10 @@ def withinPeriod(request):
         arrive = request.GET.get("arrival")
 
         flights = Flights.objects.filter(departTime__range=(start, end), destination = depart, startLocation = arrive)
-        text = '<h1>This is a response</h1>'
 
         response = []
         for flight in flights:
+            craft = Planes.objects.get(craftName=flight.craftName)
             response.append({
                 'code': flight.code,
                 'craftName': flight.craftName,
@@ -91,7 +91,8 @@ def withinPeriod(request):
                 'startLocation': flight.startLocation,
                 'destination': flight.destination,
                 'passengers': flight.passengers,
-                'duration': str(flight.arriveTime - flight.departTime)
+                'duration': str(flight.arriveTime - flight.departTime),
+                'availableSeats': craft.maxPassengers - flight.passengers
             })
 
         if not response:
