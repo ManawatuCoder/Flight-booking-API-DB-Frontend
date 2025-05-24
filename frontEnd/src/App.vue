@@ -1,21 +1,19 @@
-
-
 <script setup>
-import Main from "./components/Main.vue"
+import TopNav from "./components/nav/TopNav.vue";
 </script>
 
-
 <template>
-  <Main/>
+  <TopNav />
+  <div class="content-wrapper">
+    <RouterView />
+  </div>
 </template>
 
-
-<style>
-
+<style scoped>
+.content-wrapper {
+  margin: 1rem;
+}
 </style>
-
-
-
 
 <!-- <script setup>
 import HelloWorld from './components/HelloWorld.vue'
