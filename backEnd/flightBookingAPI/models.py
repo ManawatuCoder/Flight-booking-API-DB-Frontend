@@ -13,7 +13,7 @@ class Flights(models.Model):
     arriveTime = models.IntegerField()
     startLocation = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
-    passengers = models.AutoField()
+    passengers = models.IntegerField()
 
     # Define the t a b l e name
     class Meta:
