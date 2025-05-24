@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from .models import Flights
+from .models import Flights, Airports
 
 
 def book(request):
@@ -32,3 +32,10 @@ def withinPeriod(request):
     text = '<h1>This is a response</h1>'
     response = list(flights.values())
     return JsonResponse(response, safe=False)
+
+def airportlist(request):
+    pdata = {}
+
+    for entry in Airports.objects.all():
+        pdata[entry.airportCode] = entry.airportCode
+    return JsonResponse(pdata)

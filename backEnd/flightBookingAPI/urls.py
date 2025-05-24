@@ -29,5 +29,6 @@ urlpatterns = [
     path('populateplanes/', populatePlanes.populatePlanes),
     path('populateflights/', populateFlights.populateFlights),
     path('withinperiod/', API.withinPeriod),
-    path('populateairports/', populateAirports.populateAirports)
+    path('populateairports/', populateAirports.populateAirports),
+    path('airportlist/', API.airportlist, name='airportlist'),
 ]
