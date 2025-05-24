@@ -27,37 +27,49 @@ def unbook(request):
 def book(request):
     code = (request.GET.get('code'))
     customerName = request.GET.get('name')
-    flight = Flights.objects.get(code=code)
-    craft = flight.craftName
-    print(code)
-    passengerCount = Planes.objects.get(craftName=craft).maxPassengers
+    try:
+        flight = Flights.objects.get(code=code)
+        craft = flight.craftName
+        passengerCount = Planes.objects.get(craftName=craft).maxPassengers
 
-    randCode = random.randint(1000000, 9999999)
-    while Bookings.objects.filter(bookingRef=randCode).exists():
         randCode = random.randint(1000000, 9999999)
+        while Bookings.objects.filter(bookingRef=randCode).exists():
+            randCode = random.randint(1000000, 9999999)
 
 
-    if flight.passengers < passengerCount:
-        b = Bookings(
-            bookingRef=randCode,
-            passengerID=customerName,
-            flightCode=flight
-        )
-        b.save()
-        flight.passengers += 1
-        flight.save()
-        text = '<h1>Booking Made</h1>'
-    else:
-        text = '<h1>Flight Full: No Booking Made</h1>'
-    return HttpResponse(text)
+        if flight.passengers < passengerCount:
+            b = Bookings(
+                bookingRef=randCode,
+                passengerID=customerName,
+                flightCode=flight
+            )
+            b.save()
+            flight.passengers += 1
+            flight.save()
+            text = '<h1>Booking Made</h1>'
+        else:
+            text = '<h1>Flight Full: No Booking Made</h1>'
+
+        return HttpResponse(text)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
 
 def flightslist(request):
-    pdata = {}
+    flightsList = []
 
     for entry in Flights.objects.all():
-        pdata[entry.code] = entry.code
-        pdata[entry.craftName] = entry.craftName
-    return JsonResponse(pdata)
+        flightsList.append({
+            "code": entry.code,
+            "craftName": entry.craftName,
+            "departTime": entry.departTime,
+            "arriveTime": entry.arriveTime,
+            "startLocation": entry.startLocation,
+            "destination": entry.destination,
+            "passengers": entry.passengers,
+        })
+    return JsonResponse(flightsList, safe=False)
+
 
 def withinPeriod(request):
     start = timezone.make_aware(parse_datetime(request.GET.get("start")))
@@ -66,10 +78,10 @@ def withinPeriod(request):
     arrive = request.GET.get("arrival")
 
     flights = Flights.objects.filter(departTime__range=(start, end), destination = depart, startLocation = arrive)
-    # for item in flights:
-    #     print(item)
     text = '<h1>This is a response</h1>'
     response = list(flights.values())
+    if not response:
+        return JsonResponse({'status': 'no results', 'message': 'No flights found matching the specified request'}, status=404)
     return JsonResponse(response, safe=False)
 
 def airportlist(request):

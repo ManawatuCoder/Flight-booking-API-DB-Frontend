@@ -11,18 +11,18 @@ def hello(request):
 def form(request):
     return render(request, 'form.html', {})
 
-def flights(request):
-    f = Flights(
-        code = request.POST['code'],
-        craftName = request.POST['craftName'],
-        departTime = request.POST['departTime'],
-        arriveTime = request.POST['arriveTime'],
-        startLocation = request.POST['startLocation'],
-        destination = request.POST['destination']
-    )
-    f.save()
-    text = '<h1>Done</h1>'
-    return HttpResponse(text)
+# def flights(request):
+#     f = Flights(
+#         code = request.POST['code'],
+#         craftName = request.POST['craftName'],
+#         departTime = request.POST['departTime'],
+#         arriveTime = request.POST['arriveTime'],
+#         startLocation = request.POST['startLocation'],
+#         destination = request.POST['destination']
+#     )
+#     f.save()
+#     text = '<h1>Done</h1>'
+#     return HttpResponse(text)
 
 def bookings(request):
     code = 1
