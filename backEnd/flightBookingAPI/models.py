@@ -4,7 +4,6 @@ from django.db import models
 
 def auto_increment():
     value = Flights.passengers
-    #a comment
 
 class Flights(models.Model):
     #Arbitrary max length values, currently.
