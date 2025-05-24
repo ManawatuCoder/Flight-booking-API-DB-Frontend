@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("bookings/", views.bookings, name='bookings'),
     path("bookflight/", API.book),
+    path("unbookflight/", API.unbook),
     path('populateplanes/', populatePlanes.populatePlanes),
     path('populateflights/', populateFlights.populateFlights),
     path('withinperiod/', API.withinPeriod),

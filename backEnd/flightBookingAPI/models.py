@@ -35,7 +35,7 @@ def uniqueGenerator():
 class Bookings(models.Model):
     flightCode = models.ForeignKey(Flights, to_field='code', on_delete=models.CASCADE)
     bookingRef = models.IntegerField(unique=True, default=uniqueGenerator, primary_key=True)
-    passengerID = models.IntegerField()
+    passengerID = models.CharField(max_length=255)
 
     class Meta:
         managed = True

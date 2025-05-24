@@ -11,8 +11,7 @@ def populatePlanes(request):
               ("HondaJet Elite 2", 5)]
 
     for name, seats in planes:
-        exists = False
-        if not Planes.objects.filter(craftName=name).exists:
+        if not Planes.objects.filter(craftName=name).exists():
             p = Planes(
                 craftName=name,
                 maxPassengers = seats
