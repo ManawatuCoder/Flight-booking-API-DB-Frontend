@@ -3,7 +3,7 @@ import random
 from django.db import models
 
 def auto_increment():
-    value = Bookings.bookedSeats
+    value = Flights.passengers
 
 class Flights(models.Model):
     #Arbitrary max length values, currently.
@@ -13,14 +13,14 @@ class Flights(models.Model):
     arriveTime = models.IntegerField()
     startLocation = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
+    passengers = models.AutoField()
 
     # Define the t a b l e name
     class Meta:
         db_table = 'flights'
 
 class Planes(models.Model):
-    craftName = models.CharField(max_length=14)
-    passengers = models.IntegerField()
+    craftName = models.CharField(max_length=14, primary_key=True)
     maxPassengers = models.IntegerField()
 
     class Meta:
@@ -34,9 +34,9 @@ def uniqueGenerator():
 
 class Bookings(models.Model):
     flightCode = models.ForeignKey(Flights, to_field='code', on_delete=models.CASCADE)
-    bookingRef = models.IntegerField(unique=True, default=5)
+    bookingRef = models.IntegerField(unique=True, default=uniqueGenerator)
     passengerID = models.IntegerField()
-    bookedSeats = models.IntegerField(default = 0)
 
     class Meta:
+        managed = True
         db_table = 'bookings'

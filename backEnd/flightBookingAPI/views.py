@@ -26,8 +26,7 @@ def flights(request):
 
 def bookings(request):
     b = Bookings(
-        passengerID=request.POST['passengerID'],
-        bookedSeats=request.POST['bookedSeats']
+        passengerID=request.POST['passengerID']
     )
     b.save()
     text = '<h1>Done</h1>'
