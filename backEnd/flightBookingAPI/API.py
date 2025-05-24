@@ -72,16 +72,33 @@ def flightslist(request):
 
 
 def withinPeriod(request):
-    start = timezone.make_aware(parse_datetime(request.GET.get("start")))
-    end = timezone.make_aware(parse_datetime(request.GET.get("end")))
-    depart = request.GET.get("departure")
-    arrive = request.GET.get("arrival")
+    try:
+        start = timezone.make_aware(parse_datetime(request.GET.get("start")))
+        end = timezone.make_aware(parse_datetime(request.GET.get("end")))
+        depart = request.GET.get("departure")
+        arrive = request.GET.get("arrival")
 
-    flights = Flights.objects.filter(departTime__range=(start, end), destination = depart, startLocation = arrive)
-    text = '<h1>This is a response</h1>'
-    response = list(flights.values())
-    if not response:
-        return JsonResponse({'status': 'no results', 'message': 'No flights found matching the specified request'}, status=404)
+        flights = Flights.objects.filter(departTime__range=(start, end), destination = depart, startLocation = arrive)
+        text = '<h1>This is a response</h1>'
+
+        response = []
+        for flight in flights:
+            response.append({
+                'code': flight.code,
+                'craftName': flight.craftName,
+                'departTime': flight.departTime,
+                'arriveTime': flight.arriveTime,
+                'startLocation': flight.startLocation,
+                'destination': flight.destination,
+                'passengers': flight.passengers,
+                'duration': str(flight.arriveTime - flight.departTime)
+            })
+
+        if not response:
+            return JsonResponse({'status': 'no results', 'message': 'No flights found matching the specified request'}, status=404)
+    except:
+        return JsonResponse({'status': 'no results', 'message': 'No flights found matching the specified request'},
+                            status=404)
     return JsonResponse(response, safe=False)
 
 def airportlist(request):
