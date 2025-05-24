@@ -37,5 +37,5 @@ def airportlist(request):
     pdata = {}
 
     for entry in Airports.objects.all():
-        pdata[entry.airportCode] = entry.airportCode
+        pdata[entry.airportCode] = entry.name
     return JsonResponse(pdata)
