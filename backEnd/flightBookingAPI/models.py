@@ -43,6 +43,7 @@ class Bookings(models.Model):
 
 class Airports(models.Model):
     airportCode = models.CharField(max_length=4)
+    name=models.CharField(max_length=25, default="")
 
     class Meta:
         db_table = 'airports'
