@@ -8,7 +8,7 @@ def auto_increment():
 class Flights(models.Model):
     #Arbitrary max length values, currently.
     code = models.IntegerField(primary_key=True)
-    craftName = models.CharField(max_length=3, primary_key=False, default="poop")
+    craftName = models.CharField(max_length=3, primary_key=False)
     departTime = models.DateTimeField()
     arriveTime = models.DateTimeField()
     startLocation = models.CharField(max_length=50)
@@ -35,7 +35,7 @@ def uniqueGenerator():
 class Bookings(models.Model):
     flightCode = models.ForeignKey(Flights, to_field='code', on_delete=models.CASCADE)
     bookingRef = models.IntegerField(unique=True, default=uniqueGenerator, primary_key=True)
-    passengerID = models.IntegerField()
+    passengerID = models.CharField(max_length=255)
 
     class Meta:
         managed = True

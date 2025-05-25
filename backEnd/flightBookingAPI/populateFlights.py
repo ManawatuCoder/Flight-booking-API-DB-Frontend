@@ -224,7 +224,7 @@ def populateFlights(request):
             randCode = random.randint(1000000, 9999999)
 
         f = Flights(
-            craftName="HondaJet 1",
+            craftName="HondaJet Elite 1",
             code=randCode,
             departTime=HondaJet1Depart1,
             arriveTime=HondaJet1Arrive1,
@@ -239,7 +239,7 @@ def populateFlights(request):
             randCode = random.randint(1000000, 9999999)
 
         f = Flights(
-            craftName="HondaJet 1",
+            craftName="HondaJet Elite 1",
             code=randCode,
             departTime=HondaJet1Depart2,
             arriveTime=HondaJet1Arrive2,
@@ -276,7 +276,7 @@ def populateFlights(request):
             randCode = random.randint(1000000, 9999999)
 
         f = Flights(
-            craftName="HondaJet 2",
+            craftName="HondaJet Elite 2",
             code=randCode,
             departTime=HondaJet2Depart1,
             arriveTime=HondaJet2Arrive1,
@@ -291,12 +291,12 @@ def populateFlights(request):
             randCode = random.randint(1000000, 9999999)
 
         f = Flights(
-            craftName="HondaJet 2",
+            craftName="HondaJet Elite 2",
             code=randCode,
             departTime=HondaJet2Depart2,
             arriveTime=HondaJet2Arrive2,
             startLocation="NZCI",
-            destination="NZGB",
+            destination="NZNE",
             passengers=0
         )
         f.save()
