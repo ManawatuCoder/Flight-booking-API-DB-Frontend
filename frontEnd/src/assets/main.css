@@ -2,7 +2,9 @@
 
 :root {
   --color-white: #ffffff;
-  --color-nav: #1d3557;
+  --color-nav: #1b263b;
+  --color-border: #959595;
+  --color-feature: #1b263b27;
 }
 
 * {

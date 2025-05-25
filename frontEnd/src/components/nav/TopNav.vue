@@ -5,6 +5,7 @@
     <div>
       <router-link to="/" class="link">Home</router-link>
       <router-link to="/bookings" class="link">Bookings</router-link>
+      <router-link to="/timetable" class="link">Timetable</router-link>
     </div>
   </nav>
 </template>
