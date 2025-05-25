@@ -19,10 +19,6 @@ const showDestSuggestions = ref(false);
 
 const airportsList = ref([]);
 
-// state for displaying results
-const availableFlights = ref(null);
-const showAvailableFlights = ref(false);
-
 const getAirports = async () => {
   try {
     const response = await axios.get("http://127.0.0.1:8000/airportlist/");
@@ -104,54 +100,58 @@ onUnmounted(() => {
 <template>
   <form class="booking-form" @submit.prevent="searchFlights">
     <div class="location">
-      <div class="input-wrapper" ref="departRef">
-        <label>Depart from</label>
-        <input
-          placeholder="Dairy Flats"
-          type="text"
-          class="location-input"
-          v-model="departureAirport"
-          @input="showDepartSuggestions = true"
-        />
-        <ul v-if="showDepartSuggestions" class="suggestions">
-          <li v-for="(airport, i) in filteredDepartures" :key="i">
-            <button @click="setDepartureInput(airport)">
-              {{ airport }}
-            </button>
-          </li>
-        </ul>
+      <div class="input-container">
+        <div class="location-container">
+          <div class="input-wrapper" ref="departRef">
+            <label>Depart from</label>
+            <input
+              placeholder="Dairy Flats"
+              type="text"
+              class="location-input"
+              v-model="departureAirport"
+              @input="showDepartSuggestions = true"
+            />
+            <ul v-if="showDepartSuggestions" class="suggestions">
+              <li v-for="(airport, i) in filteredDepartures" :key="i">
+                <button @click="setDepartureInput(airport)">
+                  {{ airport }}
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="input-wrapper" ref="destRef">
+            <label>Arrive at</label>
+            <input
+              placeholder="Melbourne"
+              type="text"
+              class="location-input"
+              v-model="destinationAirport"
+              @input="showDestSuggestions = true"
+            />
+            <ul v-if="showDestSuggestions" class="suggestions">
+              <li v-for="(airport, i) in filteredArrivals" :key="i">
+                <button @click="setDestinationInput(airport)">
+                  {{ airport }}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="input-wrapper" ref="destRef">
-        <label>Arrive at</label>
-        <input
-          placeholder="Melbourne"
-          type="text"
-          class="location-input"
-          v-model="destinationAirport"
-          @input="showDestSuggestions = true"
+      <div class="date-time">
+        <label>Search within range (select two dates)</label>
+        <VueDatePicker
+          v-model="date"
+          :multi-calendars="2"
+          :min-date="new Date()"
+          :range="{ partialRange: false }"
+          class="date-picker"
         />
-        <ul v-if="showDestSuggestions" class="suggestions">
-          <li v-for="(airport, i) in filteredArrivals" :key="i">
-            <button @click="setDestinationInput(airport)">
-              {{ airport }}
-            </button>
-          </li>
-        </ul>
       </div>
     </div>
-
-    <div class="date-time">
-      <label>Search within range (select two dates)</label>
-      <VueDatePicker
-        v-model="date"
-        :multi-calendars="2"
-        :min-date="new Date()"
-        :range="{ partialRange: false }"
-        class="date-picker"
-      />
-    </div>
-    <button type="submit">Search</button>
+    <button type="submit" class="button">Search</button>
   </form>
 </template>
 
@@ -159,6 +159,7 @@ onUnmounted(() => {
 .booking-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
   max-width: 500px;
   background-color: var(--color-feature);
@@ -168,9 +169,14 @@ onUnmounted(() => {
 
 .location {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 1rem;
 }
-
+.location-container {
+  display: flex;
+  gap: 1rem;
+}
 .input-wrapper {
   display: flex;
   flex: 1;

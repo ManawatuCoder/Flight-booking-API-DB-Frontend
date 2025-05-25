@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
 
 const props = defineProps({
   flights: {
@@ -9,8 +10,10 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(["flights-selected"]);
+
 const seatSelections = ref({});
-const maxSeats = ref(5);
+const maxSeats = ref();
 
 const formatTime = (time) => {
   const formattedTime = new Date(time).toUTCString().replace("GMT", "");
@@ -18,25 +21,28 @@ const formatTime = (time) => {
   return formattedTime;
 };
 
-const handleBooking = () => {
-  const selected = Object.entries(seatSelections.value)
-    .filter(([_, tickets]) => tickets > 0)
-    .map(([flightCode, tickets]) => ({
-      flightCode,
-      tickets,
-    }));
+const sendSelectedFlights = () => {
+  const ticketEntries = Object.entries(seatSelections.value);
+  const validSelections = ticketEntries.filter(([_, tickets]) => tickets > 0); // only store tickets with passengers added
+  const selectedFlights = validSelections
+    .map(([code, tickets]) => {
+      const numericCode = Number(code);
+      const flight = props.flights.find((f) => f.code === numericCode);
 
-  for (const booking of selected) {
-    // book each ticket for each flight
-    for (let i = 1; i < booking.tickets + 1; i++) {
-      // call API to book ticket
-      console.log(
-        "Booking ticket: " + i + " from flight " + booking.flightCode
-      );
-    }
-  }
+      if (!flight) {
+        console.warn("No flight found for code: ", numericCode);
+        return null;
+      }
 
-  console.log("Booking these flights: ", selected);
+      return {
+        ...flight,
+        tickets,
+      };
+    })
+    .filter((flight) => flight !== null); // filter out null values
+
+  console.log("SELECTED FLIGHTS:", selectedFlights);
+  emits("flights-selected", selectedFlights); // send selected flights to parent
 };
 </script>
 
@@ -49,6 +55,7 @@ const handleBooking = () => {
           <th>Depart Time</th>
           <th>Arrive Time</th>
           <th>Flight Name</th>
+          <th>Remaining Seats</th>
         </tr>
       </thead>
       <tbody>
@@ -59,19 +66,20 @@ const handleBooking = () => {
               v-model.number="seatSelections[flight.code]"
               placeholder="0"
               min="0"
-              :max="maxSeats"
+              :max="flight.availableSeats"
             />
           </td>
           <td>{{ formatTime(flight.departTime) }}</td>
           <td>{{ formatTime(flight.arriveTime) }}</td>
           <td>{{ flight.craftName }}</td>
+          <td>{{ flight.availableSeats }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div>
-    <button @click="handleBooking">Book Flight</button>
+    <button @click="sendSelectedFlights" class="button">Continue</button>
   </div>
 </template>
 <style scoped>
