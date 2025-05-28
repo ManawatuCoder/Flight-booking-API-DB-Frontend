@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-import FlightResultsTimeTable from "./FlightResultsTimeTable.vue";
 
 const props = defineProps({
   selectedFlights: Array,
@@ -169,12 +168,6 @@ h3 {
 
 .book-flights {
   padding: 2rem 1rem;
-}
-
-.success-img {
-  height: 100px;
-  width: 100px;
-  margin: 2rem;
 }
 
 .price {

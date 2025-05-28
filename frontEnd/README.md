@@ -1,29 +1,50 @@
-# frontEnd
+# 159352 Assignment 2
 
-This template should help get you started developing with Vue 3 in Vite.
+Completed by:
 
-## Recommended IDE Setup
+- Ben Perkins - 13049610
+- Alex Malone - 23013729
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+This assignment was completed using Vue3 + Django
 
-## Customize configuration
+# Project Setup
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Setup Database Server
 
-## Project Setup
+```sh
+cd backEnd
+
+```
+
+```sh
+python manage.py makemigrations
+
+```
+
+```sh
+python manage.py migrate
+
+```
+
+### Run django server
+
+```sh
+python manage.py runserver
+
+```
+
+## Setup Frontend
+
+```sh
+cd frontend
+```
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Run development server (will open at localhost:8080)
 
 ```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
 ```

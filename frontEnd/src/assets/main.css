@@ -7,6 +7,7 @@
   --color-feature: rgba(255, 255, 255, 0.185);
   --color-accent: #92b2dc;
   --color-button: #125bfb;
+  --color-button-hover: #3273ff;
   --color-input-background: rgba(245, 255, 242, 0.452);
   --color-input-text: rgba(255, 255, 255, 0.63);
 }
@@ -55,8 +56,8 @@ h1 {
 }
 
 .button:hover {
-  background-color: var(--color-accent);
-  box-shadow: 1px 1px 12px #415a779c;
+  background-color: var(--color-button-hover);
+  box-shadow: 1px 1px 12px #3273ff7e;
 }
 
 table {
@@ -101,4 +102,9 @@ td {
   background-color: var(--color-feature);
   border: 1px solid #44444427;
   box-shadow: 2px 6px 24px #44444431;
+}
+.success-img {
+  height: 100px;
+  width: 100px;
+  margin: 2rem;
 }
