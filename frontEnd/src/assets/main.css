@@ -1,11 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  --color-white: #ffffff;
-  --color-nav: #1b263b;
+  --color-white: #e9e9e9;
+  --color-nav: #ffffff;
   --color-border: #959595;
-  --color-feature: #1b263b27;
-  --color-accent: #415a77;
+  --color-feature: rgba(255, 255, 255, 0.185);
+  --color-accent: #92b2dc;
+  --color-button: #125bfb;
+  --color-input-background: rgba(245, 255, 242, 0.452);
+  --color-input-text: rgba(255, 255, 255, 0.63);
 }
 
 * {
@@ -15,10 +18,21 @@
 
 html {
   font-family: "Roboto", sans-serif;
+  background: #03003b;
+  background: linear-gradient(
+    51deg,
+    rgba(3, 0, 59, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgb(0, 119, 255) 100%
+  );
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-white);
 }
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
   font-weight: normal;
 }
@@ -31,9 +45,8 @@ h1 {
   margin: 1rem 0;
   padding: 0.75rem 8rem;
   text-align: center;
-  background-color: var(--color-accent);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
+  background-color: var(--color-button);
+  border: none;
   color: white;
   font-size: 18px;
   font-weight: 600;
@@ -44,4 +57,48 @@ h1 {
 .button:hover {
   background-color: var(--color-accent);
   box-shadow: 1px 1px 12px #415a779c;
+}
+
+table {
+  border-collapse: collapse;
+  color: white;
+  margin: 1rem;
+  margin-top: 2rem;
+}
+th,
+td {
+  margin: 0;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.185);
+}
+
+thead {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+td input[type="checkbox"] {
+  padding: 10px;
+  height: 15px;
+  width: 15px;
+}
+
+th,
+td {
+}
+
+.location-input {
+  background-color: var(--color-input-background);
+  color: var(--color-white);
+  border: none;
+}
+
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 25px;
+  background-color: var(--color-feature);
+  border: 1px solid #44444427;
+  box-shadow: 2px 6px 24px #44444431;
 }

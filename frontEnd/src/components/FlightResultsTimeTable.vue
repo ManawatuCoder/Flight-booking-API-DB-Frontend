@@ -15,12 +15,37 @@ const emits = defineEmits(["flights-selected"]);
 const seatSelections = ref({});
 const maxSeats = ref();
 
-const formatTime = (time) => {
-  const formattedTime = new Date(time).toUTCString().replace("GMT", "");
+const formatTime = (time, timeZone) => {
+  const newTime = new Date(time);
+  let formattedTime = new Date(time);
+  switch (timeZone) {
+    case "YMML":
+      newTime.setHours(newTime.getHours() - 2);
+      formattedTime = new Date(newTime)
+        .toUTCString()
+        .replace(":00 GMT", " AEST")
+        .replace("2025", "")
+        .replace(",", "");
+      break;
+    case "NZCI":
+      newTime.setMinutes(newTime.getMinutes() + 45);
+      formattedTime = new Date(newTime)
+        .toUTCString()
+        .replace(":00 GMT", " CST")
+        .replace("2025", "")
+        .replace(",", "");
+      break;
+    default:
+      formattedTime = new Date(newTime)
+        .toUTCString()
+        .replace(":00 GMT", " NZT")
+        .replace("2025", "")
+        .replace(",", "");
+      break;
+  }
 
   return formattedTime;
 };
-
 const sendSelectedFlights = () => {
   const ticketEntries = Object.entries(seatSelections.value);
   const validSelections = ticketEntries.filter(([_, tickets]) => tickets > 0); // only store tickets with passengers added
@@ -41,7 +66,6 @@ const sendSelectedFlights = () => {
     })
     .filter((flight) => flight !== null); // filter out null values
 
-  console.log("SELECTED FLIGHTS:", selectedFlights);
   emits("flights-selected", selectedFlights); // send selected flights to parent
 };
 </script>
@@ -52,6 +76,7 @@ const sendSelectedFlights = () => {
       <thead>
         <tr>
           <th>Book Seats</th>
+          <th>Price</th>
           <th>Depart Time</th>
           <th>Arrive Time</th>
           <th>Flight Name</th>
@@ -69,8 +94,9 @@ const sendSelectedFlights = () => {
               :max="flight.availableSeats"
             />
           </td>
-          <td>{{ formatTime(flight.departTime) }}</td>
-          <td>{{ formatTime(flight.arriveTime) }}</td>
+          <td>${{ flight.price }}</td>
+          <td>{{ formatTime(flight.departTime, flight.startLocation) }}</td>
+          <td>{{ formatTime(flight.arriveTime, flight.destination) }}</td>
           <td>{{ flight.craftName }}</td>
           <td>{{ flight.availableSeats }}</td>
         </tr>
@@ -78,7 +104,7 @@ const sendSelectedFlights = () => {
     </table>
   </div>
 
-  <div>
+  <div class="button-div">
     <button @click="sendSelectedFlights" class="button">Continue</button>
   </div>
 </template>
@@ -98,5 +124,10 @@ li {
 .book-seats input {
   max-width: 30px;
   height: 20px;
+}
+
+.button-div {
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -1,51 +1,161 @@
 <script setup>
-import SearchFlightForm from "@/components/SearchFlightForm.vue";
-import FlightResultsTimeTable from "@/components/FlightResultsTimeTable.vue";
-import { ref } from "vue";
-import BookingModule from "@/components/BookingModule.vue";
+import axios from "axios";
+import { onMounted, ref } from "vue";
 
-// get search results to pass into results
-const availableFlights = ref([]);
-const hasSearched = ref(false);
-const selectedFlights = ref([]);
-const isBooking = ref(false);
+const allBookings = ref([]);
+const selectedBookings = ref([]);
+const searchName = ref("");
 
-// call and let results component to appear
-const handleSearchFlights = (results) => {
-  availableFlights.value = results;
-  hasSearched.value = true;
+const getBookingsFromName = async () => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/searchbooking/", {
+      params: {
+        name: searchName.value,
+      },
+    });
+    allBookings.value = response.data;
+  } catch (error) {
+    console.error("Error getting bookings", error);
+  }
 };
 
-const handleFlightsSelected = (flights) => {
-  selectedFlights.value = flights;
-  isBooking.value = true;
+const getBookings = async () => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/searchbooking/");
+    allBookings.value = response.data;
+  } catch (error) {
+    console.error("Error getting bookings", error);
+  }
 };
+
+const cancelBookings = async () => {
+  for (const booking of selectedBookings.value) {
+    try {
+      await axios.get("http://127.0.0.1:8000/unbookflight/", {
+        params: {
+          code: booking.bookingRef,
+        },
+      });
+    } catch (error) {
+      console.error("Error cancelling booking", error);
+    }
+  }
+};
+
+const toggleBookingSelection = (booking) => {
+  const index = selectedBookings.value.findIndex(
+    (b) => b.bookingRef === booking.bookingRef
+  );
+  if (index === -1) {
+    selectedBookings.value.push(booking);
+  } else {
+    selectedBookings.value.splice(index, 1);
+  }
+};
+
+onMounted(() => {
+  getBookings();
+});
 </script>
 
 <template>
-  <div class="content">
-    <h1 v-if="!isBooking">Search Flights</h1>
-
-    <SearchFlightForm
-      v-if="!hasSearched"
-      @search-completed="handleSearchFlights"
-    />
-    <FlightResultsTimeTable
-      v-if="hasSearched && !isBooking"
-      :flights="availableFlights"
-      @flights-selected="handleFlightsSelected"
-    />
-    <BookingModule v-if="isBooking" :selectedFlights="selectedFlights" />
+  <h1>My Bookings</h1>
+  <div class="bookings">
+    <div class="search-container">
+      <input
+        type="text"
+        v-model="searchName"
+        placeholder="Enter Name"
+        class="location-input input"
+      />
+      <button
+        @click="getBookingsFromName"
+        :value="searchName"
+        class="search-button"
+      >
+        Search
+      </button>
+    </div>
+    <table>
+      <thead>
+        <td>Flight Code</td>
+        <td>Booking Ref</td>
+        <td>Name</td>
+        <td>Delete</td>
+      </thead>
+      <tbody>
+        <tr v-for="booking in allBookings">
+          <td>
+            {{ booking.flightCode }}
+          </td>
+          <td>
+            {{ booking.bookingRef }}
+          </td>
+          <td>
+            {{ booking.passengerID }}
+          </td>
+          <td id="checkbox-container">
+            <input
+              type="checkbox"
+              class="name-box"
+              :value="booking.bookingRef"
+              :checked="
+                selectedBookings.some(
+                  (b) => b.bookingRef === booking.bookingRef
+                )
+              "
+              @change="toggleBookingSelection(booking)"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="button" @click="cancelBookings">Cancel Flights</button>
   </div>
 </template>
 
-<style>
-.content {
+<style scoped>
+#checkbox-container {
+  width: 60px;
+  margin: 0 auto;
+}
+
+tr {
+  height: 30px;
+}
+
+.name-box {
+  padding: 10px;
+}
+
+.bookings {
   display: flex;
   flex-direction: column;
+}
+
+.search-container {
+  display: flex;
   width: 100%;
-  height: 40vh;
-  justify-content: center;
   align-items: center;
+}
+.input {
+  width: 100%;
+  height: 50px;
+  color: var(--color-white);
+  padding: 0 10px;
+}
+
+.input::placeholder {
+  color: var(--color-input-text);
+}
+
+.search-button {
+  padding: 1rem;
+  margin: 0;
+  background-color: var(--color-button);
+  border: none;
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 16px;
 }
 </style>

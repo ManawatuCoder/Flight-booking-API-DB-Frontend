@@ -8,8 +8,10 @@ import { onMounted, ref, computed, onUnmounted } from "vue";
 const emit = defineEmits(["search-completed"]); // to tell parent component that search has been made
 
 const date = ref([]);
-const departureAirport = ref("");
-const destinationAirport = ref("");
+const departureAirportName = ref("");
+const departureAirportCode = ref("");
+const destinationAirportName = ref("");
+const destinationAirportCode = ref("");
 
 // state for dynamic airport search results
 const departRef = ref(null);
@@ -22,34 +24,41 @@ const airportsList = ref([]);
 const getAirports = async () => {
   try {
     const response = await axios.get("http://127.0.0.1:8000/airportlist/");
-    airportsList.value = Object.values(response.data);
-    console.log(response.data);
+    airportsList.value = Object.entries(response.data).map(([key, name]) => ({
+      key,
+      name,
+    }));
   } catch (error) {
     console.error("Failed to get airports list: ", error);
   }
 };
-
 const filteredDepartures = computed(() => {
-  if (departureAirport.value.length < 1) return;
+  if (departureAirportName.value.length < 1) return;
   return airportsList.value.filter((airport) =>
-    airport.toLowerCase().includes(departureAirport.value.toLowerCase())
+    airport.name
+      .toLowerCase()
+      .includes(departureAirportName.value.toLowerCase())
   );
 });
 
 const filteredArrivals = computed(() => {
-  if (departureAirport.value.length < 1) return;
-  return airportsList.value.filter((airport) =>
-    airport.toLowerCase().includes(destinationAirport.value.toLowerCase())
+  if (destinationAirportName.value.length < 1) return;
+  return airportsList.value.filter((airport, code) =>
+    airport.name
+      .toLowerCase()
+      .includes(destinationAirportName.value.toLowerCase())
   );
 });
 
 function setDepartureInput(airport) {
-  departureAirport.value = airport;
+  departureAirportName.value = airport.name;
+  departureAirportCode.value = airport.key;
   showDepartSuggestions.value = false;
 }
 
 function setDestinationInput(airport) {
-  destinationAirport.value = airport;
+  destinationAirportName.value = airport.name;
+  destinationAirportCode.value = airport.key;
   showDestSuggestions.value = false;
 }
 
@@ -68,12 +77,12 @@ const searchFlights = async () => {
       params: {
         start: departureDateTime,
         end: endDateTime,
-        departure: "NZCI",
-        arrival: "NZNE",
+        departure: departureAirportCode.value,
+        arrival: destinationAirportCode.value,
       },
     });
-    emit("search-completed", response.data);
-
+    console.log("Search Params: ");
+    console.log(response.data);
     emit("search-completed", response.data);
   } catch (error) {
     console.error("Failed to search for flights: ", error);
@@ -84,6 +93,7 @@ const searchFlights = async () => {
 const handleClickOutsideDropdown = (event) => {
   if (departRef.value && !departRef.value.contains(event.target)) {
     showDepartSuggestions.value = false;
+    showDestSuggestions.value = false;
   }
 };
 
@@ -108,13 +118,13 @@ onUnmounted(() => {
               placeholder="Dairy Flats"
               type="text"
               class="location-input"
-              v-model="departureAirport"
+              v-model="departureAirportName"
               @input="showDepartSuggestions = true"
             />
             <ul v-if="showDepartSuggestions" class="suggestions">
               <li v-for="(airport, i) in filteredDepartures" :key="i">
                 <button @click="setDepartureInput(airport)">
-                  {{ airport }}
+                  {{ airport.name }}
                 </button>
               </li>
             </ul>
@@ -126,13 +136,13 @@ onUnmounted(() => {
               placeholder="Melbourne"
               type="text"
               class="location-input"
-              v-model="destinationAirport"
+              v-model="destinationAirportName"
               @input="showDestSuggestions = true"
             />
             <ul v-if="showDestSuggestions" class="suggestions">
               <li v-for="(airport, i) in filteredArrivals" :key="i">
                 <button @click="setDestinationInput(airport)">
-                  {{ airport }}
+                  {{ airport.name }}
                 </button>
               </li>
             </ul>
@@ -164,7 +174,6 @@ onUnmounted(() => {
   max-width: 500px;
   background-color: var(--color-feature);
   padding: 1rem 1.5rem 1.5rem 1.5rem;
-  border-radius: 6px;
 }
 
 .location {
@@ -185,8 +194,18 @@ onUnmounted(() => {
 }
 
 .location-input {
-  width: 100%;
   width: calc(100% - 10px);
+  background-color: var(--color-input-background);
+  color: var(--color-white);
+  border: none;
+}
+
+.location-input::placeholder {
+  color: var(--color-input-text);
+}
+
+.location-input:focus {
+  border: none;
 }
 
 .date-time {
@@ -200,10 +219,74 @@ onUnmounted(() => {
   line-height: 30px;
   border-radius: 4px;
   padding: 5px;
+  background-color: var(--color-input-background);
 }
 
 ::v-deep(.dp__input) {
   padding-left: 35px;
+  background-color: var(--color-input-background);
+}
+::v-deep(.dp__action_row) {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+::v-deep(.dp__action_buttons) {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+::v-deep(.dp__action_select) {
+  width: 300px;
+  height: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+::v-deep(.dp__action_cancel) {
+  width: 300px;
+  height: 30;
+  margin: 5px;
+  background-color: rgba(211, 211, 211, 0.308);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+::v-deep(.dp__outer_menu_wrap) {
+}
+::v-deep(.dp__menu) {
+  background-color: #3361af;
+}
+
+::v-deep(.dp__cell_inner),
+::v-deep(.dp__pointer),
+::v-deep(.dp--future) {
+  color: white;
+}
+
+::v-deep(.dp__input_icon) {
+  color: var(--color-input-text);
+}
+
+::v-deep(.dp__range_between) {
+  background-color: rgba(255, 255, 255, 0.185);
+  border: none;
+}
+
+::v-deep(.dp__calendar_header_item) {
+  color: white;
+}
+::v-deep(.dp__month_year_select) {
+  color: white;
+}
+
+::v-deep(.dp__selection_preview) {
+  color: white;
+}
+::v-deep(.dp--past) {
+  color: gray;
 }
 
 .suggestions {
@@ -213,11 +296,12 @@ onUnmounted(() => {
   right: 0;
   max-height: 200px;
   overflow-y: auto;
-  background-color: white;
   border: 1px solid var(--color-border);
   z-index: 1000;
   margin-top: 2px;
   padding: 0;
+  width: 100%;
+  background-color: var(--color-input-background);
 }
 
 li {
@@ -230,12 +314,14 @@ li button {
   border-radius: 0;
   width: 100%;
   cursor: pointer;
-  background-color: white;
   border: 1px solid var(--color-border);
   border-top: none;
+  background-color: #3361af;
+  color: var(--color-white);
+  transition: ease-in-out 0.2s;
 }
 
 li button:hover {
-  background-color: rgb(240, 240, 240);
+  background-color: #467cda;
 }
 </style>
