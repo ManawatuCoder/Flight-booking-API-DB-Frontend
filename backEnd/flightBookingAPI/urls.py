@@ -19,12 +19,12 @@ from django.urls import path
 from . import views, API, populatePlanes, populateFlights, populateAirports
 
 urlpatterns = [
-    path('flightslist/', API.flightslist, name='flightslist'),
-    path('form/', views.form, name='form'),
-    path('flights/', API.flightslist, name='flights'),
-    path('flightBookingAPI', views.hello, name='hello'),
+    # path('form/', views.form, name='form'),
+    # path('flights/', API.flightslist, name='flights'),
+    # path('flightBookingAPI', views.hello, name='hello'),
+    # path("bookings/", views.bookings, name='bookings'),
+    # path('flightslist/', API.flightslist, name='flightslist'),
     path('admin/', admin.site.urls),
-    path("bookings/", views.bookings, name='bookings'),
     path("bookflight/", API.book),
     path("unbookflight/", API.unbook),
     path('populateplanes/', populatePlanes.populatePlanes),

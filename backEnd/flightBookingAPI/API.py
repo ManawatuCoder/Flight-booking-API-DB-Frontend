@@ -30,7 +30,7 @@ def searchBooking(request):
     name = request.GET.get('name')
     if ref:
         try:
-            entry = Bookings.objects.filter(bookingRef = ref)
+            entry = Bookings.objects.get(bookingRef = ref)
             bookingList.append({
                 "flightCode": entry.flightCode.code,
                 "bookingRef": entry.bookingRef,
@@ -90,21 +90,22 @@ def book(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
-def flightslist(request):
-    flightsList = []
-
-    for entry in Flights.objects.all():
-        flightsList.append({
-            "code": entry.code,
-            "craftName": entry.craftName,
-            "departTime": entry.departTime,
-            "arriveTime": entry.arriveTime,
-            "startLocation": entry.startLocation,
-            "destination": entry.destination,
-            "passengers": entry.passengers,
-            'price': entry.price
-        })
-    return JsonResponse(flightsList, safe=False)
+#This is a bad function to have, but here it is, just in case.
+# def flightslist(request):
+#     flightsList = []
+#
+#     for entry in Flights.objects.all():
+#         flightsList.append({
+#             "code": entry.code,
+#             "craftName": entry.craftName,
+#             "departTime": entry.departTime,
+#             "arriveTime": entry.arriveTime,
+#             "startLocation": entry.startLocation,
+#             "destination": entry.destination,
+#             "passengers": entry.passengers,
+#             'price': entry.price
+#         })
+#     return JsonResponse(flightsList, safe=False)
 
 
 def withinPeriod(request):
