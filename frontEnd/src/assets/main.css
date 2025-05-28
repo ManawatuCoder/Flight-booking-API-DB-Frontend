@@ -2,7 +2,10 @@
 
 :root {
   --color-white: #ffffff;
-  --color-nav: #1d3557;
+  --color-nav: #1b263b;
+  --color-border: #959595;
+  --color-feature: #1b263b27;
+  --color-accent: #415a77;
 }
 
 * {
@@ -18,4 +21,27 @@ html {
   max-width: 1280px;
   margin: 0 auto;
   font-weight: normal;
+}
+
+h1 {
+  margin: 1.5rem;
+}
+
+.button {
+  margin: 1rem 0;
+  padding: 0.75rem 8rem;
+  text-align: center;
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  transition: ease-in-out 0.2s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--color-accent);
+  box-shadow: 1px 1px 12px #415a779c;
 }

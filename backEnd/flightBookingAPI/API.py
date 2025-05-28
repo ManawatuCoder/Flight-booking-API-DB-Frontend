@@ -83,17 +83,18 @@ def withinPeriod(request):
         response = []
         for flight in flights:
             craft = Planes.objects.get(craftName=flight.craftName)
-            response.append({
-                'code': flight.code,
-                'craftName': flight.craftName,
-                'departTime': flight.departTime,
-                'arriveTime': flight.arriveTime,
-                'startLocation': flight.startLocation,
-                'destination': flight.destination,
-                'passengers': flight.passengers,
-                'duration': str(flight.arriveTime - flight.departTime),
-                'availableSeats': craft.maxPassengers - flight.passengers
-            })
+            if (craft.maxPassengers - flight.passengers > 0):
+                response.append({
+                    'code': flight.code,
+                    'craftName': flight.craftName,
+                    'departTime': flight.departTime,
+                    'arriveTime': flight.arriveTime,
+                    'startLocation': flight.startLocation,
+                    'destination': flight.destination,
+                    'passengers': flight.passengers,
+                    'duration': str(flight.arriveTime - flight.departTime),
+                    'availableSeats': craft.maxPassengers - flight.passengers
+                })
 
         if not response:
             return JsonResponse({'status': 'no results', 'message': 'No flights found matching the specified request'}, status=404)
