@@ -115,7 +115,7 @@ def withinPeriod(request):
         depart = request.GET.get("departure")
         arrive = request.GET.get("arrival")
 
-        flights = Flights.objects.filter(departTime__range=(start, end), destination = depart, startLocation = arrive)
+        flights = Flights.objects.filter(departTime__range=(start, end), destination = arrive, startLocation = depart)
 
         response = []
         for flight in flights:
