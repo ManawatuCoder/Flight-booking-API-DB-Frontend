@@ -102,6 +102,7 @@ def flightslist(request):
             "startLocation": entry.startLocation,
             "destination": entry.destination,
             "passengers": entry.passengers,
+            'price': entry.price
         })
     return JsonResponse(flightsList, safe=False)
 
@@ -128,7 +129,8 @@ def withinPeriod(request):
                     'destination': flight.destination,
                     'passengers': flight.passengers,
                     'duration': str(flight.arriveTime - flight.departTime),
-                    'availableSeats': craft.maxPassengers - flight.passengers
+                    'availableSeats': craft.maxPassengers - flight.passengers,
+                    'price': flight.price
                 })
 
         if not response:
