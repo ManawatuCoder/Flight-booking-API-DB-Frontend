@@ -62,6 +62,7 @@ def searchBooking(request):
 def book(request):
     code = (request.GET.get('code'))
     customerName = request.GET.get('name')
+    #Works without a name, for customer privacy ;)
     try:
         flight = Flights.objects.get(code=code)
         craft = flight.craftName
@@ -81,11 +82,11 @@ def book(request):
             b.save()
             flight.passengers += 1
             flight.save()
-            return JsonResponse({'bookingref': randCode})
+            return JsonResponse({'bookingref': randCode, "flightCode": code})
         else:
             text = '<h1>Flight Full: No Booking Made</h1>'
             return HttpResponse(text)
-        
+
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
