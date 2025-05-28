@@ -291,7 +291,7 @@ def populateFlights(request):
             departTime=HondaJet2Depart1,
             arriveTime=HondaJet2Arrive1,
             startLocation="NZNE",
-            destination="NZCI",
+            destination="NZTL",
             passengers=0,
             price=200
         )
@@ -307,7 +307,7 @@ def populateFlights(request):
             departTime=HondaJet2Depart2,
             arriveTime=HondaJet2Arrive2,
             startLocation="NZCI",
-            destination="NZNE",
+            destination="NZTL",
             passengers=0,
             price=200
         )
