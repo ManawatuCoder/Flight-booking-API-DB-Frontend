@@ -23,6 +23,41 @@ def unbook(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
+def searchBooking(request):
+    bookingList = []
+
+    ref = request.GET.get('ref')
+    name = request.GET.get('name')
+    if ref:
+        try:
+            entry = Bookings.objects.filter(bookingRef = ref)
+            bookingList.append({
+                "flightCode": entry.flightCode.code,
+                "bookingRef": entry.bookingRef,
+                "passengerID": entry.passengerID
+            })
+        except:
+            print("oops, no entry")
+        return JsonResponse(bookingList, safe=False)
+
+    elif name:
+        for entry in Bookings.objects.filter(passengerID = name):
+            bookingList.append({
+                "flightCode": entry.flightCode.code,
+                "bookingRef": entry.bookingRef,
+                "passengerID": entry.passengerID
+            })
+        return JsonResponse(bookingList, safe=False)
+    else:
+        for entry in Bookings.objects.all():
+            bookingList.append({
+                "flightCode": entry.flightCode.code,
+                "bookingRef": entry.bookingRef,
+                "passengerID": entry.passengerID
+            })
+        return JsonResponse(bookingList, safe=False)
+
+
 
 def book(request):
     code = (request.GET.get('code'))

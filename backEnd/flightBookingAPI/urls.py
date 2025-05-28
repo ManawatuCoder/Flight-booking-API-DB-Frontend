@@ -32,4 +32,5 @@ urlpatterns = [
     path('withinperiod/', API.withinPeriod),
     path('populateairports/', populateAirports.populateAirports),
     path('airportlist/', API.airportlist, name='airportlist'),
+    path('searchbooking/', API.searchBooking, name='searchbooking'),
 ]
