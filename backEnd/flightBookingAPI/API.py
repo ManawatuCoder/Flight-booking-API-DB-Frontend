@@ -81,11 +81,11 @@ def book(request):
             b.save()
             flight.passengers += 1
             flight.save()
-            text = '<h1>Booking Made</h1>'
+            return JsonResponse({'bookingref': randCode})
         else:
             text = '<h1>Flight Full: No Booking Made</h1>'
-
-        return HttpResponse(text)
+            return HttpResponse(text)
+        
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
