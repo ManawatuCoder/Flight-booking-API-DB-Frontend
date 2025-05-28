@@ -14,6 +14,7 @@ class Flights(models.Model):
     startLocation = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
     passengers = models.IntegerField(default = 0)
+    price = models.IntegerField(default=9999)
 
     # Define the t a b l e name
     class Meta:

@@ -59,7 +59,8 @@ def populateFlights(request):
             arriveTime = SyberArrive1,
             startLocation = "NZNE",
             destination = "YMML",
-            passengers = 0
+            passengers = 0,
+            price = 500
         )
         f.save()
         SyberDepart1 = SyberDepart1 + datetime.timedelta(days = 7)
@@ -77,7 +78,8 @@ def populateFlights(request):
             arriveTime = SyberArrive2,
             startLocation = "YMML",
             destination = "NZNE",
-            passengers = 0
+            passengers = 0,
+            price=500
         )
         f.save()
         SyberDepart2 += datetime.timedelta(days = 7)
@@ -99,7 +101,8 @@ def populateFlights(request):
             arriveTime=Cirrus1Arrive1,
             startLocation="NZNE",
             destination="NZRO",
-            passengers=0
+            passengers=0,
+            price=300
         )
         f.save()
 
@@ -115,7 +118,8 @@ def populateFlights(request):
             arriveTime=Cirrus1Arrive2,
             startLocation="NZRO",
             destination="NZNE",
-            passengers=0
+            passengers=0,
+            price=300
         )
         f.save()
 
@@ -137,7 +141,8 @@ def populateFlights(request):
             arriveTime=Cirrus1Arrive1,
             startLocation="NZNE",
             destination="NZRO",
-            passengers=0
+            passengers=0,
+            price=300
         )
         f.save()
 
@@ -153,7 +158,8 @@ def populateFlights(request):
             arriveTime=Cirrus1Arrive2,
             startLocation="NZRO",
             destination="NZNE",
-            passengers=0
+            passengers=0,
+            price=300
         )
         f.save()
 
@@ -182,7 +188,8 @@ def populateFlights(request):
             arriveTime=Cirrus2Arrive1,
             startLocation="NZNE",
             destination="NZGB",
-            passengers=0
+            passengers=0,
+            price=400
         )
         f.save()
 
@@ -197,7 +204,8 @@ def populateFlights(request):
             arriveTime=Cirrus2Arrive2,
             startLocation="NZGB",
             destination="NZNE",
-            passengers=0
+            passengers=0,
+            price=400
         )
         f.save()
 
@@ -230,7 +238,8 @@ def populateFlights(request):
             arriveTime=HondaJet1Arrive1,
             startLocation="NZNE",
             destination="NZCI",
-            passengers=0
+            passengers=0,
+            price=400
         )
         f.save()
 
@@ -245,7 +254,8 @@ def populateFlights(request):
             arriveTime=HondaJet1Arrive2,
             startLocation="NZCI",
             destination="NZNE",
-            passengers=0
+            passengers=0,
+            price=400
         )
         f.save()
 
@@ -282,7 +292,8 @@ def populateFlights(request):
             arriveTime=HondaJet2Arrive1,
             startLocation="NZNE",
             destination="NZCI",
-            passengers=0
+            passengers=0,
+            price=200
         )
         f.save()
 
@@ -297,7 +308,8 @@ def populateFlights(request):
             arriveTime=HondaJet2Arrive2,
             startLocation="NZCI",
             destination="NZNE",
-            passengers=0
+            passengers=0,
+            price=200
         )
         f.save()
 
