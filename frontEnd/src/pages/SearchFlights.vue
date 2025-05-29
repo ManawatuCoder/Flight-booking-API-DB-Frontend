@@ -3,39 +3,39 @@ import SearchFlightForm from "@/components/SearchFlightForm.vue";
 import FlightResultsTimeTable from "@/components/FlightResultsTimeTable.vue";
 import { ref } from "vue";
 import BookingModule from "@/components/BookingModule.vue";
+import { useSuccessStatusStore } from "@/stores/successStatusStore";
 
 // get search results to pass into results
 const availableFlights = ref([]);
-const hasSearched = ref(false);
+const successStatusStore = useSuccessStatusStore();
 const selectedFlights = ref([]);
-const isBooking = ref(false);
 
 // call and let results component to appear
 const handleSearchFlights = (results) => {
   availableFlights.value = results;
-  hasSearched.value = true;
+  successStatusStore.setSuccessStatus(true);
 };
 
 const handleFlightsSelected = (flights) => {
   selectedFlights.value = flights;
-  isBooking.value = true;
+  successStatusStore.setBookingRef(true);
 };
 </script>
 
 <template>
-  <h1 v-if="!isBooking">Search Flights</h1>
+  <h1 v-if="!successStatusStore.isBookingRef">Search Flights</h1>
 
   <div>
     <SearchFlightForm
-      v-if="!hasSearched"
+      v-if="!successStatusStore.successStatus"
       @search-completed="handleSearchFlights"
     />
     <FlightResultsTimeTable
-      v-if="hasSearched && !isBooking"
+      v-if="successStatusStore.successStatus && !successStatusStore.isBookingRef"
       :flights="availableFlights"
       @flights-selected="handleFlightsSelected"
     />
-    <BookingModule v-if="isBooking" :selectedFlights="selectedFlights" />
+    <BookingModule v-if="successStatusStore.isBookingRef" :selectedFlights="selectedFlights" />
   </div>
 </template>
 

@@ -1,11 +1,18 @@
-<script setup></script>
+<script setup>
+import { useSuccessStatusStore } from '@/stores/successStatusStore';
+  const successStatusStore = useSuccessStatusStore();
+  function resetPage(){
+    successStatusStore.setSuccessStatus(false);
+    successStatusStore.setBookingRef(false);
+  }
+</script>
 <template>
   <nav>
     <router-link to="/" class="link">AirlineBooker</router-link>
     <div>
       <router-link to="/" class="link">Home</router-link>
-      <router-link to="/search" class="link">Search Flights</router-link>
-      <router-link to="/bookings" class="link">Bookings</router-link>
+      <router-link to="/search" @click = "resetPage" class="link">Search Flights</router-link>
+      <router-link to="/bookings" @click = "resetPage" class="link">Bookings</router-link>
     </div>
   </nav>
 </template>

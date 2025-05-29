@@ -19,10 +19,6 @@ from django.urls import path
 from . import views, API, populatePlanes, populateFlights, populateAirports
 
 urlpatterns = [
-    # path('form/', views.form, name='form'),
-    # path('flights/', API.flightslist, name='flights'),
-    # path('flightBookingAPI', views.hello, name='hello'),
-    # path("bookings/", views.bookings, name='bookings'),
     # path('flightslist/', API.flightslist, name='flightslist'),
     path('admin/', admin.site.urls),
     path("bookflight/", API.book),

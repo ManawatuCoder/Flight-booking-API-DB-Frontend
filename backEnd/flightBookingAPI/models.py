@@ -6,7 +6,7 @@ def auto_increment():
     value = Flights.passengers
 
 class Flights(models.Model):
-    #Arbitrary max length values, currently.
+    #Arbitrary max length values
     code = models.IntegerField(primary_key=True)
     craftName = models.CharField(max_length=3, primary_key=False)
     departTime = models.DateTimeField()
@@ -16,7 +16,6 @@ class Flights(models.Model):
     passengers = models.IntegerField(default = 0)
     price = models.IntegerField(default=9999)
 
-    # Define the t a b l e name
     class Meta:
         db_table = 'flights'
 

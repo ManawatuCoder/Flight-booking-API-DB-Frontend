@@ -1,15 +1,18 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import { useSuccessStatusStore } from "@/stores/successStatusStore";
 
 const allBookings = ref([]);
 const selectedBookings = ref([]);
 const searchName = ref("");
 const hasCancelled = ref(false);
 
+const successStatusStore = useSuccessStatusStore();
+
 const getBookingsFromName = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/searchbooking/", {
+    const response = await axios.get("http://127.0.0.1:9000/searchbooking/", {
       params: {
         name: searchName.value,
       },
@@ -22,7 +25,7 @@ const getBookingsFromName = async () => {
 
 const getBookings = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/searchbooking/");
+    const response = await axios.get("http://127.0.0.1:9000/searchbooking/");
     allBookings.value = response.data;
   } catch (error) {
     console.error("Error getting bookings", error);
@@ -32,12 +35,12 @@ const getBookings = async () => {
 const cancelBookings = async () => {
   for (const booking of selectedBookings.value) {
     try {
-      await axios.get("http://127.0.0.1:8000/unbookflight/", {
+      await axios.get("http://127.0.0.1:9000/unbookflight/", {
         params: {
           code: booking.bookingRef,
         },
       });
-      hasCancelled.value = true;
+      successStatusStore.setSuccessStatus(true);
     } catch (error) {
       console.error("Error cancelling booking", error);
     }
@@ -62,7 +65,7 @@ onMounted(() => {
 
 <template>
   <h1>My Bookings</h1>
-  <div v-if="!hasCancelled" class="bookings">
+  <div v-if="!successStatusStore.successStatus" class="bookings">
     <div class="search-container">
       <input
         type="text"
@@ -115,7 +118,7 @@ onMounted(() => {
     <button class="button" @click="cancelBookings">Cancel Flights</button>
   </div>
 
-  <div v-if="hasCancelled" class="success-container">
+  <div v-if="successStatusStore.successStatus" class="success-container">
     <h3 class="success-text">Success</h3>
     <p>Your bookings have been cancelled.</p>
     <img src="../assets/tick.webp" class="success-img" />

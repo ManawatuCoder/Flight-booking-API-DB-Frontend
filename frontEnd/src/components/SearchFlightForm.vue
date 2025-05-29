@@ -23,7 +23,7 @@ const airportsList = ref([]);
 
 const getAirports = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/airportlist/");
+    const response = await axios.get("http://127.0.0.1:9000/airportlist/");
     airportsList.value = Object.entries(response.data).map(([key, name]) => ({
       key,
       name,
@@ -73,7 +73,7 @@ const searchFlights = async () => {
   const endDateTime = date.value[1]?.toISOString().slice(0, 16); // return date is optional
 
   try {
-    const response = await axios.get("http://127.0.0.1:8000/withinperiod/", {
+    const response = await axios.get("http://127.0.0.1:9000/withinperiod/", {
       params: {
         start: departureDateTime,
         end: endDateTime,
