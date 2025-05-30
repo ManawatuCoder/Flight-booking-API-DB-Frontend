@@ -32,7 +32,7 @@ const bookFlights = async () => {
   for (const ticket of ticketBookings.value) {
     // call API to book ticket
     try {
-      const response = await axios.get("http://127.0.0.1:8000/bookflight/", {
+      const response = await axios.get("http://127.0.0.1:9000/bookflight/", {
         params: {
           code: ticket.code,
           name: ticket.name,
