@@ -33,6 +33,7 @@ const getBookings = async () => {
 };
 
 const cancelBookings = async () => {
+let allSuccess = true;
   for (const booking of selectedBookings.value) {
     try {
       await axios.get("http://127.0.0.1:9000/unbookflight/", {
@@ -40,7 +41,9 @@ const cancelBookings = async () => {
           code: booking.bookingRef,
         },
       });
-      successStatusStore.setSuccessStatus(true);
+      if(resonse.status !== 200){
+        allSuccess = false;
+      }
       allBookings.value = allBookings.value.filter(
         (booking) =>
           !selectedBookings.value.some(
@@ -51,6 +54,11 @@ const cancelBookings = async () => {
     } catch (error) {
       console.error("Error cancelling booking", error);
     }
+  }
+  if(allSuccess){
+    successStatusStore.setSuccessStatus(true);
+  }else{
+    //Display some stuff saying one or more failed.
   }
 };
 
