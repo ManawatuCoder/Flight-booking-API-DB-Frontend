@@ -41,9 +41,6 @@ let allSuccess = true;
           code: booking.bookingRef,
         },
       });
-      if(resonse.status !== 200){
-        allSuccess = false;
-      }
       allBookings.value = allBookings.value.filter(
         (booking) =>
           !selectedBookings.value.some(
@@ -53,12 +50,13 @@ let allSuccess = true;
       selectedBookings.value = [];
     } catch (error) {
       console.error("Error cancelling booking", error);
+      allSuccess = false;
     }
   }
   if(allSuccess){
     successStatusStore.setSuccessStatus(true);
   }else{
-    //Display some stuff saying one or more failed.
+    alert("One or more bookings failed to cancel. Reload the page(f5).")
   }
 };
 
