@@ -12,7 +12,7 @@ const successStatusStore = useSuccessStatusStore();
 
 const getBookingsFromName = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:9000/searchbooking/", {
+    const response = await axios.get("api/searchbooking/", {
       params: {
         name: searchName.value,
       },
@@ -25,7 +25,7 @@ const getBookingsFromName = async () => {
 
 const getBookings = async () => {
   try {
-    const response = await axios.get("http://127.0.0.1:9000/searchbooking/");
+    const response = await axios.get("api/searchbooking/");
     allBookings.value = response.data;
   } catch (error) {
     console.error("Error getting bookings", error);
@@ -35,7 +35,7 @@ const getBookings = async () => {
 const cancelBookings = async () => {
   for (const booking of selectedBookings.value) {
     try {
-      await axios.get("http://127.0.0.1:9000/unbookflight/", {
+      await axios.get("api/unbookflight/", {
         params: {
           code: booking.bookingRef,
         },
